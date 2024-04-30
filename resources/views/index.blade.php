@@ -2,9 +2,9 @@
 @section('content')
     <div class="hero">
         <div class="hero-body text-center" id="home">
-            <h1 class="display-5 fw-bold">Welcome</h1>
-            <h1 class="display-5 fw-bold">To</h1>
-            <h1 class="display-5 fw-bold">StarLibrary</h1>
+            <h1 class="fw-bolder">Welcome</h1>
+            <h1 class="fw-bolder">To</h1>
+            <h1 class="fw-bolder">StarLibrary</h1>
             <div class="col-lg-6 mx-auto">
                 <p class="lead mb-4">A library in Taruna Bhakti vocational high school</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -22,7 +22,7 @@
                         alt="Taruna Bhakti vocational high school" width="700" height="500" loading="lazy">
                 </div>
                 <div class="col-lg-6">
-                    <h1 class="display-5 fw-bold lh-1 mb-3">StarLibrary</h1>
+                    <h1 class="lh-1 mb-3">StarLibrary</h1>
                     <p class="lead">Introducing this is a web library called StarLibrary which is located in Taruna
                         Bhakti
                         vocational high school located in the city of Depok, which was established on June 16, 2004. The

@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StarLibrary</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/pplg.png') }}">
     <link href="{{ asset('css/index.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -14,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-sm sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand mb-0 h1 fw-bolder" href="" data-toggle="tooltip" data-placement="top"><i
+            <a class="navbar-brand mb-0 h1" href="{{ route('index') }}" data-toggle="tooltip" data-placement="top"><i
                     class="bi bi-star">StarLibrary</i>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -49,8 +50,8 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-lg-end">
                                 <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Daftar Peminjaman</a></li>
-                                <li><a class="dropdown-item" href="#">Log Out</a></li>
+                                <li><a class="dropdown-item" href="{{ route('borrowing') }}">Borrowing list</a></li>
+                                <li><a class="dropdown-item" href="">Log Out</a></li>
                             </ul>
                         </div>
 
