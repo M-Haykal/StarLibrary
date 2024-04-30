@@ -1,4 +1,4 @@
-@extends('layouts.navbar')
+@extends('layouts.user.navbar')
 @section('content')
     <section>
         <div class="container py-5">

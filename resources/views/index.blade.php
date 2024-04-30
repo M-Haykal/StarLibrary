@@ -1,4 +1,4 @@
-@extends('layouts.navbar')
+@extends('layouts.user.navbar')
 @section('content')
     <div class="hero">
         <div class="hero-body text-center" id="home">
@@ -23,12 +23,9 @@
                 </div>
                 <div class="col-lg-6">
                     <h1 class="lh-1 mb-3">StarLibrary</h1>
-                    <p class="lead">Introducing this is a web library called StarLibrary which is located in Taruna
-                        Bhakti
-                        vocational high school located in the city of Depok, which was established on June 16, 2004. The
-                        purpose of creating this web library is so that students can read books anywhere and anytime
-                        without
-                        having to go to the library directly.</p>
+                    <p class="lead">Introducing this StarLibrary a library website created by Adrian Baihaqi, Apip Medya
+                        Wisnu, Daniel Hansel, Muhammad Haykal and Resti Nuriqwanti, This is the result of a project given by
+                        our teacher at school, our school is called Taruna Bhakti Vocational High School.</p>
                 </div>
             </div>
         </div>
@@ -85,7 +82,7 @@
         <div id="book" class="mt-5 mb-5">
             <h1 class="text-center">Book</h1>
             <p class="text-center lead mb-4">Here are the books available on StarLibrary</p>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="row row-cols-1 row-cols-md-5 g-4">
                 <div class="col">
                     <div class="card h-100">
                         <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
@@ -106,6 +103,32 @@
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
                             <p class="card-text">This is a short card.</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-body-secondary">Last updated 3 mins ago</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-body-secondary">Last updated 3 mins ago</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
                         </div>
                         <div class="card-footer">
                             <small class="text-body-secondary">Last updated 3 mins ago</small>
