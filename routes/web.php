@@ -24,4 +24,4 @@ Route::get('/StarLibrary/user', [AuthController::class, 'index'])->name('index')
 Route::get('/StarLibrary/borrowing', [AuthController::class, 'borrowing'])->name('borrowing');
 Route::get('/StarLibrary/admin', [AdminController::class, 'index']);
 Route::get('/StarLibrary/user/profile', [UserController::class, 'profile'])->name('profile');
-// Route::get('/StarLibrary/profile/user', [UserController::class, 'profile'])->name('profile');
+Route::get('/StarLibrary/favorite', [AuthController::class, 'favorite'])->name('favorite');

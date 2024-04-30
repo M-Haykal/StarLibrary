@@ -14,4 +14,8 @@ class AuthController extends Controller
     {
         return view('user.borrowing');
     }
+    public function favorite()
+    {
+        return view('user.favorite');
+    }
 }
