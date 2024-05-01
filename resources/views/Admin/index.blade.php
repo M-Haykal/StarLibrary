@@ -32,7 +32,7 @@
                 <thead>
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Nama</th>
+                        <th scope="col">Name</th>
                         <th scope="col">Header</th>
                         <th scope="col">Header</th>
                         <th scope="col">Header</th>
