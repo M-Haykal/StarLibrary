@@ -67,85 +67,128 @@
                 </a>
             </div>
         </div>
-        <div class="search me-5 ms-5">
-            <form method="">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <div class="input-group-btn">
-                        <button class="btn border border-2 border-start-0" type="submit">
-                            <i class="bi bi-search text-dark"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
         <div id="book" class="mt-5 mb-5">
             <h1 class="text-center">Book</h1>
             <p class="text-center lead mb-4">Here are the books available on StarLibrary</p>
-            <div class="row row-cols-1 row-cols-md-5 g-4">
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Laskar Pelangi</h5>
-                            <p class="card-text">Buku ini ditulis oleh Andrea Hirata</p>
+            <div class="card">
+                <div class="row row-cols-1 row-cols-md-5 g-4 p-3">
+
+                    <div class="col">
+                        <div class="card h-100">
+                            <a href="" class="text-decoration-none"><img
+                                    src=""
+                                    class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark">Nama Buku</h5>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="icon-link" href="#">
+                                        Favorites
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path
+                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </a>
+
                         </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary">Last updated 3 mins ago</small>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <a href="" class="text-decoration-none"><img
+                                    src=""
+                                    class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark">Nama Buku</h5>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="icon-link" href="#">
+                                        Favorites
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path
+                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <a href="" class="text-decoration-none"><img
+                                    src=""
+                                    class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark">Nama Buku</h5>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="icon-link" href="#">
+                                        Favorites
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path
+                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <a href="" class="text-decoration-none"><img
+                                    src=""
+                                    class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark">Nama Buku</h5>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="icon-link" href="#">
+                                        Favorites
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path
+                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <a href="" class="text-decoration-none"><img
+                                    src=""
+                                    class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark">Nama Buku</h5>
+                                </div>
+                                <div class="card-footer">
+                                    <a class="icon-link" href="#">
+                                        Favorites
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path
+                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </a>
+
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a short card.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary">Last updated 3 mins ago</small>
-                        </div>
+                <div class="card-body mt-3">
+                    <div class="d-grid gap-2 d-flex">
+                        <a class="btn btn-success" type="button" role="button"
+                            href="{{ route('offline') }}">Offline</a>
+                        <a class="btn btn-warning" type="button" role="button" href="{{ route('online') }}">Online</a>
                     </div>
                 </div>
             </div>

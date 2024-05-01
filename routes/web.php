@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,8 +21,11 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::get('/StarLibrary/user', [AuthController::class, 'index'])->name('index');
-Route::get('/StarLibrary/borrowing', [AuthController::class, 'borrowing'])->name('borrowing');
+Route::get('/registration', [PageController::class, 'registration'])->name('registration');
+Route::get('/StarLibrary/user', [PageController::class, 'index'])->name('index');
+Route::get('/StarLibrary/borrowing', [PageController::class, 'borrowing'])->name('borrowing');
 Route::get('/StarLibrary/admin', [AdminController::class, 'index']);
 Route::get('/StarLibrary/user/profile', [UserController::class, 'profile'])->name('profile');
-Route::get('/StarLibrary/favorite', [AuthController::class, 'favorite'])->name('favorite');
+Route::get('/StarLibrary/favorite', [PageController::class, 'favorite'])->name('favorite');
+Route::get('/StarLibrary/book/online', [PageController::class, 'online'])->name('online');
+Route::get('/StarLibrary/book/offline', [PageController::class, 'offline'])->name('offline');

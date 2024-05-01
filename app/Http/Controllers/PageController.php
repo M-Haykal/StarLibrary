@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class PageController extends Controller
 {
     public function index()
     {
@@ -17,5 +17,17 @@ class AuthController extends Controller
     public function favorite()
     {
         return view('user.favorite');
+    }
+    public function online()
+    {
+        return view('buku.online');
+    }
+    public function offline()
+    {
+        return view('buku.offline');
+    }
+
+    public function registration() {
+        return view('registrasi');
     }
 }
