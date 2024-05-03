@@ -59,7 +59,14 @@
     z-index: 1;
 }
 
-.search{
-    
+.search {
     border-radius: 100px;
 }
+
+/* .card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+} */

@@ -32,9 +32,6 @@
                         <a class="nav-link active text-white" href="#about">About Us</a>
                     </li>
                     <li class="nav-item fs-6">
-                        <a class="nav-link active text-white" href="#category">Category</a>
-                    </li>
-                    <li class="nav-item fs-6">
                         <a class="nav-link active text-white" href="#book">Book</a>
                     </li>
                 </ul>
@@ -50,8 +47,8 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-lg-end">
                                 <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('borrowing') }}">Borrowing list</a></li>
-                                <li><a class="dropdown-item" href="{{ route('favorite') }}">Favorite</a></li>
+                                <li><a class="dropdown-item" href="{{ route('online') }}">Online Book</a></li>
+                                <li><a class="dropdown-item" href="{{ route('borrowing') }}">Borrowing</a></li>
                                 <li><a class="dropdown-item" href="">Log Out</a></li>
                             </ul>
                         </div>
