@@ -10,10 +10,6 @@ class PageController extends Controller
     {
         return view('index');
     }
-    public function borrowing()
-    {
-        return view('user.borrowing');
-    }
     public function favorite()
     {
         return view('user.favorite');
@@ -27,7 +23,8 @@ class PageController extends Controller
         return view('buku.offline');
     }
 
-    public function registration() {
+    public function registration()
+    {
         return view('registrasi');
     }
 }

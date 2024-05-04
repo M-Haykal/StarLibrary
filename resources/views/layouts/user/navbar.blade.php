@@ -48,7 +48,6 @@
                             <ul class="dropdown-menu dropdown-menu-lg-end">
                                 <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
                                 <li><a class="dropdown-item" href="{{ route('online') }}">Online Book</a></li>
-                                <li><a class="dropdown-item" href="{{ route('borrowing') }}">Borrowing</a></li>
                                 <li><a class="dropdown-item" href="">Log Out</a></li>
                             </ul>
                         </div>

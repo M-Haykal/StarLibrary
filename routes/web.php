@@ -23,7 +23,6 @@ Route::get('/', function () {
 
 Route::get('/registration', [PageController::class, 'registration'])->name('registration');
 Route::get('/StarLibrary/user', [PageController::class, 'index'])->name('index');
-Route::get('/StarLibrary/borrowing', [PageController::class, 'borrowing'])->name('borrowing');
 Route::get('/StarLibrary/admin', [AdminController::class, 'index']);
 Route::get('/StarLibrary/user/profile', [UserController::class, 'profile'])->name('profile');
 Route::get('/StarLibrary/favorite', [PageController::class, 'favorite'])->name('favorite');

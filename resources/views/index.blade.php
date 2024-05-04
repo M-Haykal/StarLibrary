@@ -38,7 +38,7 @@
             <p class="text-center lead mb-4">Here are the books available on StarLibrary</p>
             <div class="row row-cols-2 row-cols-md-5 g-4">
                 <div class="col">
-                    <div class="card h-100">
+                    <div class="card h-100" data-bs-toggle="modal" data-bs-target="#peminjaman">
                         <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
                             class="card-img-top" alt="...">
                         <ul class="list-group list-group-flush">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card h-100">
+                    <div class="card h-100" data-bs-toggle="modal" data-bs-target="#peminjaman">
                         <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
                             class="card-img-top" alt="...">
                         <ul class="list-group list-group-flush">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card h-100">
+                    <div class="card h-100" data-bs-toggle="modal" data-bs-target="#peminjaman">
                         <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
                             class="card-img-top" alt="...">
                         <ul class="list-group list-group-flush">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card h-100">
+                    <div class="card h-100" data-bs-toggle="modal" data-bs-target="#peminjaman">
                         <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
                             class="card-img-top" alt="...">
                         <ul class="list-group list-group-flush">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card h-100">
+                    <div class="card h-100" data-bs-toggle="modal" data-bs-target="#peminjaman">
                         <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
                             class="card-img-top" alt="...">
                         <ul class="list-group list-group-flush">
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card h-100">
+                    <div class="card h-100" data-bs-toggle="modal" data-bs-target="#peminjaman">
                         <img src="https://i.pinimg.com/236x/10/dc/06/10dc06814790d2159ade8a25ac61fa24.jpg"
                             class="card-img-top" alt="...">
                         <ul class="list-group list-group-flush">
@@ -106,6 +106,6 @@
             </div>
         </div>
 
-        
+
     </div>
 @endsection
