@@ -28,3 +28,6 @@ Route::get('/StarLibrary/user/profile', [UserController::class, 'profile'])->nam
 Route::get('/StarLibrary/favorite', [PageController::class, 'favorite'])->name('favorite');
 Route::get('/StarLibrary/book/online', [PageController::class, 'online'])->name('online');
 Route::get('/StarLibrary/book/offline', [PageController::class, 'offline'])->name('offline');
+Route::get('/StarLibrary/admin/databuku', [PageController::class, 'databuku'])->name('databuku');
+Route::get('/StarLibrary/admin/datapinjam', [PageController::class, 'datapinjam'])->name('datapinjam');
+Route::get('/StarLibrary/admin/datauser', [PageController::class, 'datauser'])->name('datauser');

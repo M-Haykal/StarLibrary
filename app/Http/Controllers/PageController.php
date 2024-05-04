@@ -27,4 +27,16 @@ class PageController extends Controller
     {
         return view('registrasi');
     }
+
+    public function databuku(){
+        return view('admin.databuku');
+    }
+
+    public function datapinjam(){
+        return view('admin.datapinjam');
+    }
+
+    public function datauser(){
+        return view('admin.datauser');
+    }
 }
