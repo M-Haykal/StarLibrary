@@ -20,7 +20,6 @@
                         <input type="text" class="form-control" id="recipient-name">
                     </div>
                     <div class="mb-3">
-                        {{-- ketika klik submit maka data buku yang dipinjam akan terlihat di borrowing di folder user --}}
                         <input class="btn btn-success" type="submit" value="Submit">
                     </div>
                 </form>

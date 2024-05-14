@@ -13,10 +13,10 @@
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Genre</th>
-                        <th scope="col">Publisher</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Total Book</th>
+                        <th scope="col">Return Date</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
             </table>
