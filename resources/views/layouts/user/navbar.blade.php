@@ -15,26 +15,28 @@
 <body>
     <nav class="navbar navbar-expand-sm sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand mb-0 h1" href="{{ route('index') }}" data-toggle="tooltip" data-placement="top"><i
-                    class="bi bi-star">StarLibrary</i>
+            <a class="navbar-brand mb-0 h1" href="{{ route('index') }}" data-toggle="tooltip" data-placement="top">
+                <i class="bi bi-star">StarLibrary</i>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mx-auto mb-lg-0">
-                    <li class="nav-item fs-6">
-                        <a class="nav-link active text-white" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item fs-6">
-                        <a class="nav-link active text-white" href="#about">About Us</a>
-                    </li>
-                    <li class="nav-item fs-6">
-                        <a class="nav-link active text-white" href="#book">Book</a>
-                    </li>
-                </ul>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                <div class="mx-auto">
+                    <ul class="navbar-nav">
+                        <li class="nav-item fs-6">
+                            <a class="nav-link active text-white" href="#home">Home</a>
+                        </li>
+                        <li class="nav-item fs-6">
+                            <a class="nav-link active text-white" href="#about">About Us</a>
+                        </li>
+                        <li class="nav-item fs-6">
+                            <a class="nav-link active text-white" href="#book">Book</a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="search-box">
                     <form class="link d-flex" role="search">
                         <div class="dropdown">
@@ -51,12 +53,12 @@
                                 <li><a class="dropdown-item" href="">Log Out</a></li>
                             </ul>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </nav>
+
 
     @yield('content')
 

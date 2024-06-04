@@ -27,7 +27,7 @@
 }
 
 .navbar-nav:hover a:hover {
-    color: #198754;
+    color: black !important;
     box-shadow: 0 2px 0 currentColor;
 }
 
