@@ -28,9 +28,15 @@ Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthAPIController::class, 'register']);
     Route::post('/edit-profile', [ApiController::class, 'editProfile']);
     Route::get('/listpeminjaman', [ApiController::class, 'listPeminjaman']);
+    Route::post('/ulasan', [ApiController::class, 'ulasan']);
+    Route::get('/reviews/{id}', [ApiController::class, 'getReviews']);
+    Route::post('/favorite', [ApiController::class, 'addFavorite']);
+    Route::delete('/favorite', [ApiController::class, 'removeFavorite']);
+    Route::get('/favorite', [ApiController::class, 'listallfav']);
     Route::middleware('auth:sanctum')->get('/listbuku', [BookController::class, 'listBuku']);
-    Route::middleware('auth:sanctum')->get('/online', [BookController::class, 'listBukuOnline']);
+    Route::get('/online', [BookController::class, 'listBukuOnline']);
     Route::middleware('auth:sanctum')->post('/pinjam/{id}', [ApiController::class, 'pinjam']);
+    Route::put('/cancel/{id}', [ApiController::class, 'cancelpeminjaman']);
     Route::middleware('auth:sanctum')->delete('/return/{peminjaman}', [ApiController::class, 'destroy']);
     Route::post('/reset-all-tokens', [AuthAPIController::class, 'resetAllTokens']);
 

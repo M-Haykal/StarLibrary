@@ -30,8 +30,8 @@ class AuthAPIController extends Controller
     }
 
     $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required', 'min:8'],
+        'email' => ['required'],
+        'password' => ['required'],
     ]);
 
     $guard = null;
@@ -47,7 +47,6 @@ class AuthAPIController extends Controller
         $user = Auth::guard($guard)->user();
         $token = $user->createToken('token-name')->plainTextToken;
 
-        // Simpan token ke header
         return response()->json([
             'message' => 'Successfully logged in.',
             'user' => $user,
@@ -55,11 +54,11 @@ class AuthAPIController extends Controller
         ])->header('Authorization', 'Bearer ' . $token);
     }
 
-    // Jika gagal, kembalikan respon kode error 401 (Unauthorized)
     return response()->json([
         'error' => 'Invalid email or password.'
     ], Response::HTTP_UNAUTHORIZED);
 }
+
 
 
 
@@ -126,6 +125,5 @@ public function resetAllTokens(Request $request)
         ], Response::HTTP_OK);
     }
 
-    
 
 }

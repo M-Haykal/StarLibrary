@@ -13,19 +13,25 @@ class Peminjaman extends Model
         'judul',
         'penerbit',
         'pengarang',
+        'harga',
         'stok_tersisa',
         'thumbnail',
         'status',
         'category_id', // Menyimpan category_id dari buku
         'deskripsi',
         'confirmed_at', // New field
-        'returned_at'   // New field
+        'returned_at',   // New field
+        'dueDate' // New field
     ];
 
     public function siswa()
     {
         return $this->belongsTo(Siswa::class);
     }
+    public function buku()
+{
+    return $this->belongsTo(Buku::class);
+}
 
     public function category()
     {

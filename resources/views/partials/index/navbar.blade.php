@@ -23,7 +23,7 @@
                 </a>
             </form>
             @endguest
-        </div> 
+        </div>
 
     </div>
 </nav>

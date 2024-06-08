@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Peminjaman;
 use App\Models\Buku;
 use App\Models\Siswa;
+use App\Models\User;
+use App\Models\Petugas;
 use App\Models\BukuOnline;
 use App\Models\Category;
 use App\Models\Review;
@@ -21,12 +23,20 @@ class LibraryController extends Controller
         return view('index_admin', compact("bukus", "siswas"));
     }
 
+    public function petugas_manager()
+    {
+        $petugas = Petugas::all();
+        return view('admin.petugas_manager', compact('petugas'));
+    }
+
+
     public function panelBukuAdmin()
 {
     $bukus = Buku::all();
+    $categories = Category::all();
 
 
-    return view('panel_buku_admin', compact('bukus'));
+    return view('admin.panel_buku_admin', compact("bukus", "categories"));
 }
     public function panelBukuPetugas()
 {
@@ -170,17 +180,33 @@ public function panelKategoriPetugas()
         $request->validate([
             'buku_id' => 'required|exists:bukus,id',
             'comment' => 'required|string',
-            'rating' => 'required|integer|between:1,5' // Validasi rating
+            'rating' => 'required|integer|between:1,5',
+            'peminjaman_id' => 'required|exists:peminjamans,id'
         ]);
 
+        $peminjaman = Peminjaman::find($request->peminjaman_id);
+
+        // Cek apakah status peminjaman sudah dikonfirmasi
+        if ($peminjaman->status !== 'returned') {
+            return response()->json(['status' => 'error', 'message' => 'Kamu Hanya bisa Mengirim Ulasan jika Peminjaman Sudah di kembalikan.']);
+        }
+
+        // Cek apakah sudah ada ulasan untuk peminjaman ini
+        $existingReview = Review::where('peminjaman_id', $request->peminjaman_id)->first();
+        if ($existingReview) {
+            return response()->json(['status' => 'error', 'message' => 'Kamu Sudah Mengirim Ulasan.']);
+        }
+
+        // Buat ulasan baru
         $review = Review::create([
             'siswa_id' => auth()->user()->id,
             'buku_id' => $request->buku_id,
             'comment' => $request->comment,
-            'rating' => $request->rating
+            'rating' => $request->rating,
+            'peminjaman_id' => $request->peminjaman_id
         ]);
 
-        return response()->json(['status' => 'success', 'message' => 'Review has been submitted successfully.', 'buku_id' => $request->buku_id]);
+        return response()->json(['status' => 'success', 'message' => 'Review berhasil Di kirim.', 'buku_id' => $request->buku_id]);
     }
 
     public function getReviews($id)
@@ -226,14 +252,25 @@ public function panelKategoriPetugas()
     }
 
     public function create_buku(Request $request) {
-        $datas = $request->validate([
-            'judul' => 'required|string',
-            'penerbit' => 'required|string',
-            'pengarang' => 'required|string',
-            'stok_buku' => 'required|integer',
-        ]);
 
-        Buku::create($datas);
+    $validatedData = $request->validate([
+        'judul' => 'required|string',
+        'penerbit' => 'required|string',
+        'pengarang' => 'required|string',
+        'stok_buku' => 'required|integer',
+        'category_id' => 'required|exists:categories,id', // Validation for category_id, ensuring it exists in the categories table
+        'thumbnail' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for image file
+        'deskripsi' => 'nullable|string'  // Validate description
+    ]);
+
+    // Check if thumbnail is uploaded
+    if ($request->hasFile('thumbnail')) {
+        $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public'); // Store the thumbnail
+        $validatedData['thumbnail'] = $thumbnailPath; // Save the path in validated data
+    }
+
+    Buku::create($validatedData); // Create the book with validated data
+
         return redirect()->route('panel_buku_admin')->with('success', 'Buku berhasil ditambahkan');
     }
     public function create_buku_petugas(Request $request)
@@ -262,15 +299,26 @@ public function panelKategoriPetugas()
 
 
     public function edit_buku(Request $request, $id) {
-        $datas = $request->validate([
+        $validatedData = $request->validate([
             'judul' => 'required|string',
             'penerbit' => 'required|string',
             'pengarang' => 'required|string',
             'stok_buku' => 'required|integer',
+            'category_id' => 'required|exists:categories,id', // Validasi untuk category_id
+            'deskripsi' => 'nullable|string'  // Validate description
         ]);
 
         $buku = Buku::findOrFail($id);
-        $buku->update($datas);
+
+        // Update data buku
+        $buku->update([
+            'judul' => $validatedData['judul'],
+            'penerbit' => $validatedData['penerbit'],
+            'pengarang' => $validatedData['pengarang'],
+            'stok_buku' => $validatedData['stok_buku'],
+            'category_id' => $validatedData['category_id'], // Memperbarui category_id
+            'deskripsi' => $validatedData['deskripsi'],  // Validate description
+        ]);
         return redirect()->route('panel_buku_admin')->with('success', 'Buku berhasil diedit');
     }
     public function edit_buku_petugas(Request $request, $id) {
@@ -348,55 +396,45 @@ public function panelKategoriPetugas()
 
         return redirect()->route('dashboard_admin')->with('success', 'Siswa deleted successfully');
     }
+
+        public function store_petugas(Request $request)
+    {
+        Petugas::create([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_status' => 'petugas',
+        ]);
+
+        return redirect()->route('petugas_manager')->with('success', 'Petugas created successfully.');
+    }
+
+    public function edit_petugas(Request $request, $id)
+    {
+        $petugas = Petugas::findOrFail($id);
+
+        $petugas->update([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_status' => 'petugas',
+        ]);
+
+        return redirect()->route('petugas_manager')->with('success', 'Petugas updated successfully');
+    }
+
+    public function delete_petugas($id)
+    {
+        $petugas = Petugas::findOrFail($id);
+        $petugas->delete();
+
+        return redirect()->route('petugas_manager')->with('success', 'Petugas deleted successfully');
+    }
+
     public function showDataPeminjaman()
     {
         $peminjamans = Peminjaman::all();
         return view('data_peminjaman', compact('peminjamans'));
     }
-
-//     public function borrowBook($id)
-// {
-//     $buku = Buku::findOrFail($id);
-//     $siswa = Auth::user();
-
-//     if ($buku && $siswa) {
-//         if ($buku->stok_buku > 0) {
-//             // Cek apakah siswa sudah meminjam buku ini sebelumnya
-//             $existingPeminjaman = Peminjaman::where('buku_id', $buku->id)
-//                 ->where('siswa_id', $siswa->id)
-//                 ->first();
-
-//             if ($existingPeminjaman) {
-//                 return response()->json(['status' => 'error', 'message' => 'Anda sudah meminjam buku ini sebelumnya.']);
-//             }
-
-//             // Tambahkan status "waiting" pada peminjaman
-//             $peminjaman = new Peminjaman([
-//                 'buku_id' => $buku->id,
-//                 'judul' => $buku->judul,
-//                 'penerbit' => $buku->penerbit,
-//                 'pengarang' => $buku->pengarang,
-//                 'stok_tersisa' => $buku->stok_buku - 1,
-//                 'thumbnail' => $buku->thumbnail,
-//                 'status' => 'waiting', // Set status "waiting"
-//             ]);
-
-//             $siswa->peminjamans()->save($peminjaman);
-
-//             $buku->stok_buku--;
-//             $buku->save();
-
-//             return response()->json(['status' => 'success', 'message' => 'Buku berhasil dipinjam.']);
-//         } else {
-//             return response()->json(['status' => 'error', 'message' => 'Maaf, buku sedang habis.']);
-//         }
-//     } else {
-//         return response()->json(['status' => 'error', 'message' => 'ID buku tidak valid atau buku tidak ditemukan.']);
-//     }
-// }
-
-
-
-
 
 }

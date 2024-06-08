@@ -13,16 +13,21 @@ class Buku extends Model
 
     protected $table = 'bukus';
 
-    protected $fillable = ['judul', 'penerbit', 'pengarang', 'stok_buku', 'thumbnail', 'category_id', 'deskripsi'];
+    protected $fillable = ['judul', 'penerbit', 'pengarang', 'stok_buku', 'thumbnail', 'category_id', 'deskripsi', 'harga'];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
     public function reviews()
-{
-    return $this->hasMany(Review::class);
-}
+    {
+        return $this->hasMany(Review::class);
+    }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 
 }

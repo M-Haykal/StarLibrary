@@ -30,7 +30,79 @@
         </div>
     </div>
 
-    @include('partials.buku.borrow')
+    @foreach($bukus as $buku)
+    <!-- Modal for each book -->
+    <div class="modal fade" id="peminjaman-{{ $buku->id }}" tabindex="-1" aria-labelledby="exampleModalLabel-{{ $buku->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel-{{ $buku->id }}">Data Buku</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!-- Row for Image -->
+                        <div class="row">
+                            <div class="col text-center">
+                                <img src="{{ asset('storage/' . $buku->thumbnail) }}" class="img-thumbnail mb-3" alt="Thumbnail" style="max-width: 100%; height: auto;">
+                            </div>
+                        </div>
+                        <!-- Row for Text Fields -->
+                        <div class="row">
+                            <div class="col">
+                                <form onsubmit="borrowBook(event, {{ $buku->id }})" method="POST">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="title-{{ $buku->id }}" class="form-label">Title:</label>
+                                        <input type="text" class="form-control" id="title-{{ $buku->id }}" value="{{ $buku->judul }}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description-{{ $buku->id }}" class="form-label">Description:</label>
+                                        <textarea class="form-control" id="description-{{ $buku->id }}" readonly rows="4">{{ $buku->deskripsi ?? 'Tidak ada deskripsi di buku ini' }}</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="author-{{ $buku->id }}" class="form-label">Author:</label>
+                                        <input type="text" class="form-control" id="author-{{ $buku->id }}" value="{{ $buku->pengarang }}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="stock-{{ $buku->id }}" class="form-label">Stock:</label>
+                                        <input type="text" class="form-control" id="stock-{{ $buku->id }}" value="{{ $buku->stok_buku }}" readonly>
+                                    </div>
+                                    <div class="mb-3 d-flex justify-content-between">
+                                        <button class="btn btn-success">Pinjam</button>
+                                    </div>
+                                </form>
+                                <form onsubmit="addToFavorite(event, {{ $buku->id }})" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="buku_id" value="{{ $buku->id }}">
+                                    <button class="btn btn-warning">
+                                        <i class="fa-regular fa-bookmark"></i> Add To Favorite
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <h2>Reviews</h2>
+                            <div class="col-md-8">
+                                <div class="card mb-4">
+                                    <div class="card-body p-0">
+                                        <ul class="list-group list-group-flush rounded-3" id="reviews-list-{{ $buku->id }}">
+                                            <!-- Reviews will be dynamically inserted here by JavaScript -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
     {{-- Untuk Buku offline --}}
     <div id="book" class="mt-5 mb-5">
@@ -40,7 +112,7 @@
         <div class="row row-cols-2 row-cols-md-5 g-4">
             @foreach ($bukus as $buku)
             <div class="col" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
-                <div class="card h-100 shadow-sm border-0" style="transition: transform .2s; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#peminjaman" data-buku-id="{{ $buku->id }}" data-title="{{ $buku->judul }}" data-author="{{ $buku->pengarang }}" data-stock="{{ $buku->stok_buku }}" data-thumbnail="{{ asset('storage/' . $buku->thumbnail) }}" data-description="{{ $buku->deskripsi ?? 'Tidak ada deskripsi di buku ini' }}" data-route="{{ route('borrow.book', $buku->id) }}">
+                <div class="card h-100 shadow-sm border-0" style="transition: transform .2s; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#peminjaman-{{ $buku->id }}">
                     <img src="{{ asset('storage/' . $buku->thumbnail) }}" class="card-img-top rounded-top" alt="..." style="height: 400px; object-fit: cover;">
                     <div class="card-body">
                         <p class="card-text">
@@ -80,7 +152,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <style>
-    .card:hover {
+.card:hover {
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
     .card-img-top {
@@ -122,163 +194,129 @@
         transition: color 0.3s;
     }
 </style>
-
-
-</style>
 @endpush
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-
-
     AOS.init();
 
-    $('#peminjaman').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var bukuId = button.data('buku-id');
-        var title = button.data('title');
-        var author = button.data('author');
-        var stock = button.data('stock');
-        var thumbnail = button.data('thumbnail');
-        var description = button.data('description') || 'Tidak ada deskripsi di buku ini';
-        var route = button.data('route');
-
-        var modal = $(this);
-        modal.find('.modal-body #recipient-name').val(title);
-        modal.find('.modal-body #author').val(author);
-        modal.find('.modal-body #stock').val(stock);
-        modal.find('.modal-body #thumbnail').attr('src', thumbnail);
-        modal.find('.modal-body #description').val(description);
-        modal.find('.modal-body #borrow-book-form').attr('action', route);
-        modal.find('#add-to-favorite').data('buku-id', bukuId);
+document.addEventListener('DOMContentLoaded', function () {
+        // Event listener for opening modals to fetch reviews
+        @foreach($bukus as $buku)
+        $('#peminjaman-{{ $buku->id }}').on('show.bs.modal', function () {
+            fetchReviews({{ $buku->id }});
+        });
+        @endforeach
     });
 
-    $(document).ready(function() {
-        $('#borrow-book-form').submit(function(event) {
-            event.preventDefault();
-            var form = $(this);
-            var url = form.attr('action');
-            var formData = form.serialize();
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: response.message
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $('#peminjaman').modal('hide');
-                            }
-                        });
+    function fetchReviews(bookId) {
+        fetch(`/costumer/buku/${bookId}/reviews`)
+            .then(response => response.json())
+            .then(data => {
+                const reviewsList = document.getElementById(`reviews-list-${bookId}`);
+                reviewsList.innerHTML = ''; // Clear existing reviews
+                data.reviews.forEach(review => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center p-3';
+                    listItem.innerHTML = `<p class="mb-0"><strong>${review.user_name}:</strong> ${review.comment} - ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</p>`;
+                    reviewsList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching reviews:', error));
+    }
+
+        // Function to show success message with SweetAlert
+        function showSuccessMessage(message) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: message,
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+
+    // Function to show error message with SweetAlert
+    function showErrorMessage(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: message
+        });
+    }
+
+    // Submit form event listener
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all forms with class 'borrow-form'
+        const borrowForms = document.querySelectorAll('.borrow-form');
+
+        // Loop through each form
+        borrowForms.forEach(form => {
+            // Add submit event listener to each form
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Get form action URL
+                const url = form.getAttribute('action');
+
+                // Send POST request to server
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        // Optionally include form data here
+                    })
+                })
+                .then(response => response.json()) // Parse JSON response
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Show success message
+                        showSuccessMessage(data.message);
                     } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message
-                        });
+                        // Show error message
+                        showErrorMessage(data.message);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
+                })
+                .catch(error => {
+                    // Show error message
+                    showErrorMessage('An error occurred.');
+                    console.error('Error:', error);
+                });
             });
         });
-
-        $('#add-to-favorite').click(function() {
-            var bukuId = $(this).data('buku-id');
-            $.ajax({
-                url: '{{ route("add.to.favorite") }}',
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    buku_id: bukuId
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: response.message
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    var errorMessage = xhr.responseJSON.error || 'Terjadi kesalahan. Silakan coba lagi.';
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: errorMessage
-                    });
-                }
-            });
-        });
-
-
-
     });
 
-    $(document).ready(function() {
-    // Event handler untuk mengatur pemilihan bintang saat diklik
-    $(document).ready(function() {
-        $('#star-rating .star').on('click', function() {
-            var rating = $(this).data('value');
-
-            // Setel nilai rating pada input tersembunyi
-            $('#rating').val(rating);
-
-            // Hilangkan kelas 'selected' dari semua bintang
-            $('#star-rating .star').removeClass('selected');
-
-            // Tambahkan kelas 'selected' ke bintang yang dipilih dan semua bintang sebelumnya
-            $(this).addClass('selected');
-            $(this).prevAll('.star').addClass('selected');
-        });
-    });
-
-
-    // Event handler untuk menangani pengiriman ulasan saat formulir dikirim
-    $('#review-form').submit(function(event) {
-        event.preventDefault(); // Mencegah pengiriman formulir secara default
-        var form = $(this);
-        var url = '{{ route("reviews.store") }}'; // URL untuk mengirim formulir
-        var formData = form.serialize(); // Serialisasi data formulir
-
+    // Function to handle form submission for borrowing a book
+     // Function to handle form submission for borrowing a book
+     function borrowBook(event, bookId) {
+        event.preventDefault();
         $.ajax({
             type: 'POST',
-            url: url,
-            data: formData,
-            dataType: 'json',
+            url: '{{ route('borrow.book', ':id') }}'.replace(':id', bookId), // Update the URL with the bookId
+            data: {
+                "_token": "{{ csrf_token() }}",
+                // No need to pass book_id here as it's already in the URL
+            },
             success: function(response) {
                 if (response.status === 'success') {
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: response.message
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.trigger('reset'); // Mengatur ulang formulir
-                            $('#star-rating .star').removeClass('selected'); // Menghapus seleksi bintang
-                            loadReviews(response.buku_id); // Muat ulasan untuk buku yang bersangkutan
-                        }
+                        text: response.message,
+                        timer: 2000
                     });
                 } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: response.message
+                        title: 'Info',
+                        text: response.message,
                     });
                 }
             },
@@ -286,60 +324,48 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Something went wrong. Please try again.'
+                    text: 'Failed to borrow the book. Please try again later.',
                 });
             }
         });
-    });
-
-    // Fungsi untuk memuat ulasan
-    function loadReviews(bukuId) {
-    $.ajax({
-        type: 'GET',
-        url: '{{ route("reviews.get", ["id" => ":id"]) }}'.replace(':id', bukuId),
-        success: function(response) {
-            var reviewsList = $('#reviews-list');
-            reviewsList.empty(); // Mengosongkan ulasan sebelumnya
-
-            // Menambahkan setiap ulasan ke dalam daftar ulasan
-            response.reviews.forEach(function(review) {
-                var listItem = $('<li class="list-group-item d-flex justify-content-between align-items-center p-3"></li>');
-                var userComment = $('<p class="mb-0"><strong>' + review.user_name + ': </strong> ' + review.comment + ' - ' + generateStarRating(review.rating) + '</p>');
-                listItem.append(userComment);
-                reviewsList.append(listItem);
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error('Error loading reviews:', xhr.responseText);
-        }
-    });
-}
-
-function generateStarRating(rating) {
-    var stars = '';
-    for (var i = 0; i < rating; i++) {
-        stars += '<i class="star-total fas fa-star"></i>';
     }
-    for (var i = rating; i < 5; i++) {
-        stars += '<i class="star-inactive far fa-star"></i>';
+
+    // Function to handle form submission for adding a book to favorites
+    function addToFavorite(event, bookId) {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('add.to.favorite') }}',
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "buku_id": bookId
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                        timer: 2000
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Info',
+                        text: response.message,
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to add the book to favorites. Please try again later.',
+                });
+            }
+        });
     }
-    return stars;
-}
-
-
-    // Event modal yang akan dijalankan ketika modal ditampilkan
-    $('#peminjaman').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget);
-        var bukuId = button.data('buku-id');
-        var modal = $(this);
-        modal.find('#review-form input[name="buku_id"]').val(bukuId); // Mengatur nilai buku_id pada formulir ulasan
-        loadReviews(bukuId); // Memuat ulasan saat modal ditampilkan
-    });
-});
-
-
-
-
-
 </script>
+
+
 @endpush

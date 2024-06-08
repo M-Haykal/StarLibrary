@@ -32,6 +32,37 @@
                                     <label for="status" class="form-label">Status:</label>
                                     <input type="text" class="form-control" id="status" readonly>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="denda" class="form-label">Denda:</label>
+                                    <input type="text" class="form-control" id="denda" readonly>
+                                </div>
+
+                                <div id="button-container" class="mb-3">
+                                    <!-- Button akan ditambahkan di sini -->
+                                </div>
+                            </form>
+                            <form id="review-form" class="p-3 d-none">
+                                @csrf
+                                <input type="hidden" name="buku_id" id="buku_id">
+                                <input type="hidden" name="peminjaman_id" id="review_peminjaman_id">
+                                <input type="hidden" name="rating" id="rating" value="0">
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Comment</label>
+                                    <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="rating" class="form-label">Rating</label>
+                                    <div id="star-rating" class="d-flex align-items-center">
+                                        <i class="star fas fa-star" data-value="1"></i>
+                                        <i class="star fas fa-star" data-value="2"></i>
+                                        <i class="star fas fa-star" data-value="3"></i>
+                                        <i class="star fas fa-star" data-value="4"></i>
+                                        <i class="star fas fa-star" data-value="5"></i>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-success" type="submit">Send Review</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -70,6 +101,14 @@
     .form-control:read-only {
         background-color: #e9ecef;
         opacity: 1;
+    }
+    .star {
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #d3d3d3;
+    }
+    .star.text-warning {
+        color: #ffc107;
     }
 </style>
 @endpush

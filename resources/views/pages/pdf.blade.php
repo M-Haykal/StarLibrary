@@ -32,6 +32,9 @@
                 <th>Customer Name</th>
                 <th>Judul Buku</th>
                 <th>Author</th>
+                <th>Created At</th>
+                <th>Confirmed At</th>
+                <th>Returned At</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -42,6 +45,9 @@
                     <td>{{ $peminjaman->siswa->nama }}</td>
                     <td>{{ $peminjaman->judul }}</td>
                     <td>{{ $peminjaman->pengarang }}</td>
+                    <td>{{ $peminjaman->created_at }}</td>
+                    <td>{{ $peminjaman->confirmed_at }}</td>
+                    <td>{{ $peminjaman->returned_at }}</td>
                     <td>{{ $peminjaman->status }}</td>
                 </tr>
             @endforeach

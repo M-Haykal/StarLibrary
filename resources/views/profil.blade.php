@@ -46,7 +46,13 @@
                                     <p class="mb-0">Join date</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ auth()->user()->created_at }}</p>
+                                    <p class="text-muted mb-0">
+                                        @if(auth()->user()->created_at)
+                                            {{ auth()->user()->created_at->format('M d, Y') }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -66,12 +72,15 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">History Peminjaman</button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="bermasalah-tab" data-bs-toggle="tab" data-bs-target="#bermasalah" type="button" role="tab" aria-controls="bermasalah" aria-selected="false">Peminjaman Bermasalah</button>
+                        </li>
                     </ul>
                     <div class="tab-content" id="pilihanTabContent">
                         <div class="tab-pane fade show active" id="pinjam" role="tabpanel" aria-labelledby="pinjam-tab">
                             <div class="row row-cols-2 row-cols-md-5 g-4">
                                 @foreach ($peminjamans as $peminjaman)
-                                    @if (Auth::user()->id == $peminjaman->siswa_id && $peminjaman->status != 'returned')
+                                    @if (Auth::user()->id == $peminjaman->siswa_id && $peminjaman->status != 'returned' && $peminjaman->status != 'cancelled' && $peminjaman->status != 'hilang' && $peminjaman->status != 'telat' && $peminjaman->status != 'rusak')
                                         <div class="col" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
                                             <div class="card h-100 shadow-sm border-0" style="transition: transform .2s; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#datapeminjaman"
                                                 data-title="{{ $peminjaman->judul }}"
@@ -79,6 +88,7 @@
                                                 data-author="{{ $peminjaman->pengarang }}"
                                                 data-peminjaman-id="{{ $peminjaman->id }}"
                                                 data-status="{{ $peminjaman->status }}"
+                                                data-denda="{{ $peminjaman->denda }}"
                                                 data-thumbnail="{{ asset('storage/' . $peminjaman->thumbnail) }}">
                                                 <img src="{{ asset('storage/' . $peminjaman->thumbnail) }}" class="card-img-top rounded-top" alt="..." style="height: 400px; object-fit: cover;">
                                                 <div class="card-body">
@@ -117,14 +127,58 @@
                         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
                             <div class="row row-cols-2 row-cols-md-5 g-4">
                                 @foreach ($peminjamans as $peminjaman)
-                                    @if (Auth::user()->id == $peminjaman->siswa_id && $peminjaman->status == 'returned')
+                                @if (Auth::user()->id == $peminjaman->siswa_id && ($peminjaman->status == 'returned' || $peminjaman->status == 'cancelled'))
+                                    <div class="col" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
+                                        <div class="card h-100 shadow-sm border-0" style="transition: transform .2s; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#datapeminjaman"
+                                            data-title="{{ $peminjaman->judul }}"
+                                            data-deskripsi="{{ $peminjaman->deskripsi }}"
+                                            data-author="{{ $peminjaman->pengarang }}"
+                                            data-buku-id="{{ $peminjaman->buku_id }}"
+                                            data-peminjaman-id="{{ $peminjaman->id }}"
+                                            data-status="{{ $peminjaman->status }}"
+                                            data-thumbnail="{{ asset('storage/' . $peminjaman->thumbnail) }}">
+                                            <img src="{{ asset('storage/' . $peminjaman->thumbnail) }}" class="card-img-top rounded-top" alt="..." style="height: 400px; object-fit: cover;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $peminjaman->judul }}</h5>
+                                                <p class="card-text">Author: {{ $peminjaman->pengarang }}</p>
+                                                @if ($peminjaman->status == 'returned')
+                                                    <span class="badge rounded-pill" style="background-color: #6c757d">Di Kembalikan</span>
+                                                @elseif ($peminjaman->status == 'cancelled')
+                                                    <span class="badge rounded-pill" style="background-color: #dc3545">Di Batalkan</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="bermasalah" role="tabpanel" aria-labelledby="bermasalah-tab">
+                            <div class="row row-cols-2 row-cols-md-5 g-4">
+                                @foreach ($peminjamans as $peminjaman)
+                                    @if (Auth::user()->id == $peminjaman->siswa_id && in_array($peminjaman->status, ['hilang', 'telat', 'rusak']))
                                         <div class="col" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
-                                            <div class="card h-100 shadow-sm border-0" style="transition: transform .2s; cursor: pointer;">
+                                            <div class="card h-100 shadow-sm border-0" style="transition: transform .2s; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#datapeminjaman"
+                                                data-title="{{ $peminjaman->judul }}"
+                                                data-deskripsi="{{ $peminjaman->deskripsi }}"
+                                                data-author="{{ $peminjaman->pengarang }}"
+                                                data-buku-id="{{ $peminjaman->buku_id }}"
+                                                data-peminjaman-id="{{ $peminjaman->id }}"
+                                                data-status="{{ $peminjaman->status }}"
+                                                data-denda="{{ $peminjaman->denda }}"
+                                                data-thumbnail="{{ asset('storage/' . $peminjaman->thumbnail) }}">
                                                 <img src="{{ asset('storage/' . $peminjaman->thumbnail) }}" class="card-img-top rounded-top" alt="..." style="height: 400px; object-fit: cover;">
                                                 <div class="card-body">
                                                     <h5 class="card-title">{{ $peminjaman->judul }}</h5>
                                                     <p class="card-text">Author: {{ $peminjaman->pengarang }}</p>
-                                                    <span class="badge rounded-pill" style="background-color: #6c757d">Returned</span>
+                                                    @if ($peminjaman->status == 'rusak')
+                                                        <span class="badge rounded-pill" style="background-color: #6c757d">Buku Rusak</span>
+                                                    @elseif ($peminjaman->status == 'hilang')
+                                                        <span class="badge rounded-pill" style="background-color: #dc3545">Buku Hilang</span>
+                                                    @elseif ($peminjaman->status == 'telat')
+                                                        <span class="badge rounded-pill" style="background-color: #FFD55C">Telat Dikembalikan</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -135,6 +189,7 @@
                     </div>
                 </div>
             </div>
+
 
         </div>
     </section>
@@ -181,6 +236,7 @@
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <style>
     .card:hover {
         transform: scale(1.05);
@@ -197,40 +253,178 @@
         height: 400px;
         object-fit: cover;
     }
+
+    .star {
+        font-size: 2rem;
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .star.selected, .star:hover{
+        font-size: 2rem;
+        color: #ffd700;
+    }
+
+    .star-inactive {
+        font-size: 1rem;
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .star-total {
+        font-size: 1rem;
+        color: #ffd700;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
 <script>
     AOS.init();
 
-    $('#datapeminjaman').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var title = button.data('title');
-        var author = button.data('author');
-        var status = button.data('status'); // Menambahkan data-status dari button
-        var description = button.data('deskripsi'); // Menambahkan data-description dari button
-        var peminjamanId = button.data('peminjaman-id');
-        var thumbnail = button.data('thumbnail');
-        var modal = $(this);
-        modal.find('.modal-body #book-title').val(title);
-        modal.find('.modal-body #book-author').val(author);
-        modal.find('.modal-body #status').val(status); // Mengisi nilai input dengan status
-        modal.find('.modal-body #description').text(description); // Mengisi nilai textarea dengan deskripsi
-        modal.find('.modal-body #peminjaman_id').val(peminjamanId);
-        modal.find('.modal-body #thumbnail').attr('src', thumbnail);
+    // Script to handle the modal and form submission
+// Script to handle the modal and form submission
+$('#datapeminjaman').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var title = button.data('title');
+    var author = button.data('author');
+    var status = button.data('status');
+    var denda = button.data('denda');
+    var description = button.data('deskripsi');
+    var peminjamanId = button.data('peminjaman-id');
+    var bukuId = button.data('buku-id');
+    var thumbnail = button.data('thumbnail');
+    var modal = $(this);
 
-        var buttonContainer = modal.find('#button-container');
-        buttonContainer.empty(); // Membersihkan kontainer tombol sebelum menambahkan tombol baru
+    modal.find('.modal-body #book-title').val(title);
+    modal.find('.modal-body #book-author').val(author);
+    modal.find('.modal-body #status').val(status);
+    modal.find('.modal-body #denda').val(denda);
+    modal.find('.modal-body #description').text(description);
+    modal.find('.modal-body #peminjaman_id').val(peminjamanId);
+    modal.find('.modal-body #thumbnail').attr('src', thumbnail);
 
-        if (status == 'waiting') {
-            // Jika statusnya adalah "waiting", tambahkan tombol "Batalkan Peminjaman"
-            buttonContainer.append('<button class="btn btn-warning cancel-peminjaman" data-peminjaman-id="' + peminjamanId + '">Batalkan Peminjaman</button>');
-        } else if (status == 'confirm') {
-            // Jika statusnya adalah "confirm", tambahkan tombol "Return Book"
-            buttonContainer.append('<button class="btn btn-danger return-book" data-peminjaman-id="' + peminjamanId + '">Return Book</button>');
+    var buttonContainer = modal.find('#button-container');
+    buttonContainer.empty();
+
+    var reviewForm = modal.find('#review-form');
+    reviewForm.addClass('d-none'); // Hide the review form by default
+
+    if (status == 'waiting') {
+        buttonContainer.append('<button class="btn btn-warning cancel-peminjaman" data-peminjaman-id="' + peminjamanId + '">Batalkan Peminjaman</button>');
+    } else if (status == 'returned') {
+        reviewForm.removeClass('d-none'); // Show the review form
+        reviewForm.find('input[name="buku_id"]').val(bukuId); // Set the buku_id in the review form
+        reviewForm.find('input[name="peminjaman_id"]').val(peminjamanId); // Set the peminjaman_id in the review form
+    }
+});
+
+// Star rating functionality
+$('#rating-stars i').on('click', function() {
+    var value = $(this).data('value');
+    $('#rating').val(value);
+
+    // Highlight stars up to the clicked one
+    $('#rating-stars i').each(function() {
+        if ($(this).data('value') <= value) {
+            $(this).addClass('text-warning');
+        } else {
+            $(this).removeClass('text-warning');
         }
+    });
+});
+
+// Handle form submission
+$('#review-form').on('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+    var formData = $(this).serialize(); // Get the form data
+
+    $.ajax({
+        type: 'POST',
+        url: '{{ route("reviews.store") }}', // Update with your actual route
+        data: formData,
+        success: function(response) {
+            if(response.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: response.message
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#datapeminjaman').modal('hide'); // Hide the modal
+                        // Optionally, you can refresh the reviews list or update it dynamically here
+                        loadReviews(response.buku_id);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: response.message
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error submitting review:', xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'There was an error submitting your review.'
+            });
+        }
+    });
+});
+
+
+function generateStarRating(rating) {
+    var stars = '';
+    for (var i = 0; i < rating; i++) {
+        stars += '<i class="star-total fas fa-star"></i>';
+    }
+    for (var i = rating; i < 5; i++) {
+        stars += '<i class="star-inactive far fa-star"></i>';
+    }
+    return stars;
+}
+
+
+
+    // Event listener untuk tombol "Batalkan Peminjaman"
+    $(document).on('click', '.cancel-peminjaman', function(e) {
+        e.preventDefault();
+        var peminjamanId = $(this).data('peminjaman-id');
+
+        $.ajax({
+            url: '{{ route("peminjaman.cancel", ":id") }}'.replace(':id', peminjamanId),
+            type: 'PUT',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                // Tindakan setelah berhasil membatalkan peminjaman
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload(); // Refresh halaman
+                    }
+                });
+            },
+            error: function(xhr) {
+                // Tindakan jika terjadi kesalahan
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan. Silakan coba lagi.'
+                });
+            }
+        });
     });
 
     function previewImage(event) {
@@ -273,6 +467,22 @@
                     text: 'Terjadi kesalahan. Silakan coba lagi.'
                 });
             }
+        });
+    });
+
+    $(document).ready(function() {
+        $('#star-rating .star').on('click', function() {
+            var rating = $(this).data('value');
+
+            // Setel nilai rating pada input tersembunyi
+            $('#rating').val(rating);
+
+            // Hilangkan kelas 'selected' dari semua bintang
+            $('#star-rating .star').removeClass('selected');
+
+            // Tambahkan kelas 'selected' ke bintang yang dipilih dan semua bintang sebelumnya
+            $(this).addClass('selected');
+            $(this).prevAll('.star').addClass('selected');
         });
     });
 });

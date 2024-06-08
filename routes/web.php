@@ -38,6 +38,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout_user');
 
 Route::prefix('admin')->middleware('auth')->group(function (){
     Route::get('/dashboard', [LibraryController::class, 'index_admin'])->name('dashboard_admin');
+    Route::get('/petugas', [LibraryController::class, 'petugas_manager'])->name('petugas_manager');
+
     Route::get('/buku', [LibraryController::class, 'panelBukuAdmin'])->name('panel_buku_admin');
 
     Route::delete('/buku/{id}', [LibraryController::class, 'delete_buku'])->name('buku.delete');
@@ -48,13 +50,17 @@ Route::prefix('admin')->middleware('auth')->group(function (){
     Route::put('/dashboard/{id}', [LibraryController::class, 'edit_siswa'])->name('siswa.edit');
     Route::delete('/dashboard/{id}', [LibraryController::class, 'delete_siswa'])->name('siswa.delete');
 
+    Route::post('/petugas', [LibraryController::class, 'store_petugas'])->name('petugas.store');
+    Route::put('/petugas/{id}', [LibraryController::class, 'edit_petugas'])->name('petugas.edit');
+    Route::delete('/petugas/{id}', [LibraryController::class, 'delete_petugas'])->name('petugas.delete');
+
 });
 Route::prefix('petugas')->middleware('auth:petugas')->group(function (){
     Route::get('/dashboard', [LibraryController::class, 'index_petugas'])->name('dashboard_petugas');
     Route::get('/buku', [LibraryController::class, 'panelBukuPetugas'])->name('panel_buku_petugas');
     Route::get('/bukuonline', [BukuOnlineController::class, 'panelBukuOnline'])->name('panel_buku_online');
     Route::get('/daftarpeminjaman', [LibraryController::class, 'panelPeminjamanPetugas'])->name('panel_peminjaman_petugas');
-    Route::get('/peminjaman/download-pdf', [PeminjamanController::class, 'downloadPDF'])->name('peminjaman.download-pdf');
+    Route::get('/daftarpeminjaman/view-pdf', [PeminjamanController::class, 'downloadPDF'])->name('peminjaman.view-pdf');
 
     Route::put('/peminjaman/{id}/confirm', [PeminjamanController::class, 'confirm'])->name('peminjaman.confirm');
     Route::delete('/buku/{id}', [LibraryController::class, 'delete_buku_petugas'])->name('buku.delete');
@@ -72,6 +78,7 @@ Route::prefix('petugas')->middleware('auth:petugas')->group(function (){
     Route::put('/bukuonline/{id}', [BukuOnlineController::class, 'edit_buku_online'])->name('buku_online.edit');
     Route::delete('/bukuonline/{id}', [BukuOnlineController::class, 'delete_buku_online'])->name('buku_online.delete');
     Route::post('/peminjaman/return/{id}', [PeminjamanController::class, 'returnBook'])->name('peminjaman.return');
+    Route::get('/peminjaman/search', [PeminjamanController::class, 'search'])->name('peminjaman.search');
 
 });
 
@@ -86,7 +93,7 @@ Route::prefix('costumer')->middleware('auth:costumer')->group(function (){
     Route::post('/borrow/{id}', [PeminjamanController::class, 'pinjam'])->name('borrow.book');
     Route::post('/pinjam/{buku}', [PeminjamanController::class, 'pinjam'])->name('pinjam');
 
-    Route::delete('/peminjaman/{peminjaman}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
+    Route::put('/peminjaman/{peminjaman}', [PeminjamanController::class, 'cancel'])->name('peminjaman.cancel');
     Route::post('/add-to-favorite', [LibraryController::class, 'addToFavorite'])->name('add.to.favorite');
     Route::delete('/favorite/remove/{buku_id}', [LibraryController::class, 'removeFavorite'])->name('favorite.remove');
 
